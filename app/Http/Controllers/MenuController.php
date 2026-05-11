@@ -10,8 +10,8 @@ class MenuController extends Controller
     {
         return view('menu.index', [
             'featured'      => Product::where('is_featured', true)->where('is_active', true)->get(),
-            'riceGrains'    => Product::where('category', 'rice')->where('is_active', true)->get(),
-            'sweetArchives' => Product::where('category', 'sweet')->where('is_active', true)->get(),
+            'riceGrains'    => Product::whereHas('category', fn($q) => $q->where('slug', 'rice'))->where('is_active', true)->get(),
+            'sweetArchives' => Product::whereHas('category', fn($q) => $q->where('slug', 'sweet'))->where('is_active', true)->get(),
         ]);
     }
 
