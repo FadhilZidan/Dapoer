@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(head -50)",
+      "Bash(php artisan *)"
+    ]
+  }
+}
