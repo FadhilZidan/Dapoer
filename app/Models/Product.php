@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'name', 'slug', 'subtitle', 'description', 'heritage_narrative',
-        'price', 'original_price', 'category', 'region', 'heat_level',
+        'price', 'original_price', 'category_id', 'region', 'heat_level',
         'cook_time', 'key_ingredients', 'image', 'is_featured', 'is_active',
     ];
 
@@ -30,6 +30,11 @@ class Product extends Model
     {
         if (!$this->original_price) return null;
         return 'Rp ' . number_format($this->original_price, 0, ',', '.');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function orderItems()

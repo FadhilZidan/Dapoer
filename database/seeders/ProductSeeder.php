@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 use App\Models\Product;
 
 class ProductSeeder extends Seeder
@@ -13,6 +14,8 @@ class ProductSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Product::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        $cat = Category::pluck('id', 'slug');
 
         $products = [
             // === SIGNATURE / FEATURED ===
@@ -24,7 +27,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => "Originating from the Minangkabau highlands of West Sumatra, Rendang is more than just a dish; it is a symbol of patience, wisdom, and communal heritage. Traditionally prepared for grand ceremonies and honoring distinguished guests, its preparation reflects the philosophy of \"Musyawarah\" (consensus building).\n\nThe dark color comes from the caramelization of coconut milk, a process called 'maillard reaction' that transforms liquid ivory into a complex, savory nectar. Our recipe has been passed down through four generations of the Dapoer Nusantara family, using specific varieties of galangal and lemongrass sourced directly from local Indonesian farmers.",
                 'price' => 145000,
                 'original_price' => 185000,
-                'category' => 'main',
+                'category_id' => $cat['main'],
                 'region' => 'West Sumatra',
                 'heat_level' => 'Medium Spicy',
                 'cook_time' => '8-Hour Slow Cook',
@@ -40,7 +43,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Madura Island is famous throughout Indonesia for its legendary satay. Tender chicken skewers grilled over coconut shell charcoal, served with a rich peanut sauce made from freshly ground roasted peanuts, kecap manis, and a blend of aromatic spices.',
                 'price' => 85000,
                 'original_price' => null,
-                'category' => 'main',
+                'category_id' => $cat['main'],
                 'region' => 'Central Java',
                 'heat_level' => 'Mild',
                 'cook_time' => '45-Minute Grill',
@@ -58,7 +61,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'A beloved staple of Indonesian village kitchens, this kampung-style fried rice is made with aromatic shrimp paste, garlic, and a medley of traditional spices.',
                 'price' => 65000,
                 'original_price' => null,
-                'category' => 'rice',
+                'category_id' => $cat['rice'],
                 'region' => 'Java',
                 'heat_level' => 'Medium',
                 'cook_time' => '20-Minute Wok',
@@ -74,7 +77,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Tumpeng is Indonesia\'s most iconic ceremonial dish — golden turmeric rice shaped into a mountain cone, symbolizing gratitude and prosperity.',
                 'price' => 75000,
                 'original_price' => null,
-                'category' => 'rice',
+                'category_id' => $cat['rice'],
                 'region' => 'Java',
                 'heat_level' => 'Mild',
                 'cook_time' => '1-Hour Tradition',
@@ -90,7 +93,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Nasi Uduk is the soul food of Betawi — Jakarta\'s indigenous people. Fluffy rice steamed in fragrant coconut milk, served with traditional Betawi accompaniments.',
                 'price' => 70000,
                 'original_price' => null,
-                'category' => 'rice',
+                'category_id' => $cat['rice'],
                 'region' => 'Betawi / Jakarta',
                 'heat_level' => 'Mild',
                 'cook_time' => '30-Minute Steam',
@@ -108,7 +111,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Es Campur is Indonesia\'s answer to the perfect tropical refreshment — a beautiful chaos of flavors and textures that reflects the diversity of the archipelago.',
                 'price' => 45000,
                 'original_price' => null,
-                'category' => 'sweet',
+                'category_id' => $cat['sweet'],
                 'region' => 'Nusantara',
                 'heat_level' => 'None',
                 'cook_time' => 'Served Chilled',
@@ -124,7 +127,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Klepon is one of Indonesia\'s most beloved traditional sweets — jade-green rice cake balls filled with liquid palm sugar, rolled in freshly grated coconut.',
                 'price' => 35000,
                 'original_price' => null,
-                'category' => 'sweet',
+                'category_id' => $cat['sweet'],
                 'region' => 'Java',
                 'heat_level' => 'None',
                 'cook_time' => 'Handcrafted Daily',
@@ -140,7 +143,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Dadar Gulung is a traditional Indonesian rolled pancake scented with pandan, filled with a sweet mixture of grated coconut and palm sugar.',
                 'price' => 30000,
                 'original_price' => null,
-                'category' => 'sweet',
+                'category_id' => $cat['sweet'],
                 'region' => 'Java & Bali',
                 'heat_level' => 'None',
                 'cook_time' => 'Freshly Rolled',
@@ -158,7 +161,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Sambal Bajak is one of Java\'s oldest cooked sambal varieties, named after the "bajak" (plow), associated with the agricultural rituals of Javanese farmers.',
                 'price' => 45000,
                 'original_price' => null,
-                'category' => 'condiment',
+                'category_id' => $cat['condiment'],
                 'region' => 'Java',
                 'heat_level' => 'Hot',
                 'cook_time' => '2-Hour Slow Cook',
@@ -176,7 +179,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Gado Gado is Indonesia\'s national salad — a vibrant ensemble of cooked and raw vegetables, tofu, tempeh, and boiled eggs, all united by a rich peanut sauce.',
                 'price' => 65000,
                 'original_price' => null,
-                'category' => 'main',
+                'category_id' => $cat['main'],
                 'region' => 'Betawi / Jakarta',
                 'heat_level' => 'Mild',
                 'cook_time' => '25-Minute Prep',
@@ -192,7 +195,7 @@ class ProductSeeder extends Seeder
                 'heritage_narrative' => 'Nasi Goreng Jawa is distinct from its kampung cousin with the addition of sweet kecap manis and the subtle heat of Javanese chili blend.',
                 'price' => 95000,
                 'original_price' => null,
-                'category' => 'main',
+                'category_id' => $cat['main'],
                 'region' => 'Central Java',
                 'heat_level' => 'Medium Spicy',
                 'cook_time' => '20-Minute Wok',

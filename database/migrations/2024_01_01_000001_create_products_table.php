@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('heritage_narrative')->nullable();
             $table->integer('price');
             $table->integer('original_price')->nullable();
-            $table->string('category'); // main, rice, sweet, condiment
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->string('region')->nullable();
             $table->string('heat_level')->nullable();
             $table->string('cook_time')->nullable();
