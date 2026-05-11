@@ -86,7 +86,7 @@
                 </button>
 
                 {{-- Cart --}}
-                <a href="{{ route('checkout.index') }}" class="text-gray-600 hover:text-brand transition-colors relative" aria-label="Cart">
+                <a href="{{ route('cart.index') }}" class="text-gray-600 hover:text-brand transition-colors relative" aria-label="Cart">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4l1-7z"/>
                     </svg>

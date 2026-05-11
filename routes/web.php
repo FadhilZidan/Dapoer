@@ -27,6 +27,7 @@ Route::get('/archives', [PageController::class, 'archives'])->name('archives');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // Cart (session-based, no auth required)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');

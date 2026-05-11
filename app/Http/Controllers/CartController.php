@@ -7,6 +7,28 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        $cart = session('cart', []);
+
+        $productIds = array_column(array_values($cart), 'id');
+        $products   = Product::with('category')->whereIn('id', $productIds)->get()->keyBy('id');
+
+        $enriched = [];
+        foreach ($cart as $key => $item) {
+            $product = $products->get($item['id']);
+            $enriched[$key] = array_merge($item, [
+                'subtitle'      => $product?->subtitle ?? '',
+                'category_name' => $product?->category?->name ?? '',
+            ]);
+        }
+
+        $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $enriched));
+        $tax      = (int) round($subtotal * 0.10);
+
+        return view('cart.index', compact('enriched', 'subtotal', 'tax'));
+    }
+
     public function add(Request $request)
     {
         $request->validate([
