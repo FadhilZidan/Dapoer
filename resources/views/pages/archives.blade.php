@@ -101,7 +101,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="archive-grid">
         @foreach($allProducts as $product)
         <article class="archive-card bg-white rounded-xl overflow-hidden shadow-sm"
-                 data-category="{{ $product->category }}">
+                 data-category="{{ $product->category->slug ?? '' }}">
 
             {{-- Image --}}
             <div class="relative h-52 overflow-hidden">
@@ -116,7 +116,7 @@
                             'sweet'     => 'linear-gradient(135deg, #8B3A1A, #C4622D)',
                             'condiment' => 'linear-gradient(135deg, #5A1A1A, #8B2D2D)',
                         ];
-                        $grad = $gradients[$product->category] ?? 'linear-gradient(135deg, #1B3A2D, #3A6B50)';
+                        $grad = $gradients[$product->category->slug ?? ''] ?? 'linear-gradient(135deg, #1B3A2D, #3A6B50)';
                     @endphp
                     <div class="card-image-block w-full h-full flex items-center justify-center"
                          style="background: {{ $grad }};">
@@ -137,7 +137,7 @@
                 @endphp
                 <div class="absolute top-3 left-3">
                     <span class="bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-semibold px-3 py-1 rounded-full">
-                        {{ $categoryLabels[$product->category] ?? $product->category }}
+                        {{ $categoryLabels[$product->category->slug ?? ''] ?? ($product->category->name ?? '') }}
                     </span>
                 </div>
 

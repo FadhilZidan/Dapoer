@@ -48,6 +48,13 @@
             <h2 class="font-serif text-4xl font-bold text-gray-900 mb-1">Welcome</h2>
             <p class="text-gray-500 text-sm mb-8">Continue your journey through the archives.</p>
 
+            {{-- Success Message --}}
+            @if(session('success'))
+                <div class="bg-green-50 border border-green-200 rounded px-4 py-3 mb-6 text-sm text-green-700">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             {{-- Validation Errors --}}
             @if($errors->any())
                 <div class="bg-red-50 border border-red-200 rounded px-4 py-3 mb-6 text-sm text-red-700">
@@ -76,7 +83,7 @@
                         <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider">
                             Password
                         </label>
-                        <a href="#" class="text-xs text-rust hover:text-rust-dark font-medium">Forgot Password?</a>
+                        <a href="{{ route('password.request') }}" class="text-xs text-rust hover:text-rust-dark font-medium">Forgot Password?</a>
                     </div>
                     <div class="relative">
                         <input type="password" name="password" id="password"

@@ -48,13 +48,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        Auth::login(User::create([
+        User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => $request->password,
-        ]));
+        ]);
 
-        return redirect()->route('menu.index');
+        return redirect()->route('login')->with('success', 'Account created! Please sign in.');
     }
 
     public function logout(Request $request)
@@ -62,6 +62,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('menu.index');
     }
 }
