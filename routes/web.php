@@ -30,6 +30,7 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/cancel', [CartController::class, 'cancel'])->name('cart.cancel');
 
 // Checkout (auth required to place order)
 Route::middleware('auth')->group(function () {

@@ -17,17 +17,12 @@ class CheckoutController extends Controller
             return redirect()->route('menu.index')->with('error', 'Your cart is empty.');
         }
 
-        $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $cart));
-        $tax      = (int) round($subtotal * 0.11);
-        $shipping = 15000;
+        $totals = $this->calculateTotals($cart);
 
-        return view('checkout.index', [
-            'cart'     => array_values($cart),
-            'subtotal' => $subtotal,
-            'tax'      => $tax,
-            'shipping' => $shipping,
-            'total'    => $subtotal + $tax + $shipping,
-        ]);
+        return view('checkout.index', array_merge(
+            ['cart' => array_values($cart)],
+            $totals
+        ));
     }
 
     public function store(Request $request)
@@ -35,7 +30,7 @@ class CheckoutController extends Controller
         $cart = session('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('menu.index');
+            return redirect()->route('menu.index')->with('error', 'Your cart is empty.');
         }
 
         $request->validate([
@@ -46,9 +41,7 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:card,bank_transfer,ewallet',
         ]);
 
-        $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $cart));
-        $tax      = (int) round($subtotal * 0.11);
-        $shipping = 15000;
+        $totals = $this->calculateTotals($cart);
 
         $order = Order::create([
             'user_id'        => Auth::id(),
@@ -58,10 +51,10 @@ class CheckoutController extends Controller
             'city'           => $request->city,
             'postal_code'    => $request->postal_code,
             'payment_method' => $request->payment_method,
-            'subtotal'       => $subtotal,
-            'tax'            => $tax,
-            'shipping'       => $shipping,
-            'total'          => $subtotal + $tax + $shipping,
+            'subtotal'       => $totals['subtotal'],
+            'tax'            => $totals['tax'],
+            'shipping'       => $totals['shipping'],
+            'total'          => $totals['total'],
             'status'         => 'processing',
         ]);
 
@@ -82,7 +75,25 @@ class CheckoutController extends Controller
 
     public function success(string $reference)
     {
-        $order = Order::with('items')->where('reference', $reference)->firstOrFail();
+        $order = Order::with('items')
+            ->where('reference', $reference)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
         return view('checkout.success', ['order' => $order]);
+    }
+
+    private function calculateTotals(array $cart): array
+    {
+        $subtotal = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $cart));
+        $tax      = (int) round($subtotal * 0.11);
+        $shipping = 15000;
+
+        return [
+            'subtotal' => $subtotal,
+            'tax'      => $tax,
+            'shipping' => $shipping,
+            'total'    => $subtotal + $tax + $shipping,
+        ];
     }
 }
